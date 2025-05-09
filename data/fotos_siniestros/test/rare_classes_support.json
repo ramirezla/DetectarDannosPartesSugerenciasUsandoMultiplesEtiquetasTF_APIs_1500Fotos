@@ -1,0 +1,115 @@
+{
+  "rare_partes": [
+    39,
+    43,
+    15
+  ],
+  "rare_partes_names": [
+    "Rejilla, parrilla",
+    "Techo",
+    "Luz indicadora delantera derecha"
+  ],
+  "rare_dannos": [],
+  "rare_dannos_names": [],
+  "examples": {
+    "partes": [
+      {
+        "Imagen": "1062.jpg",
+        "dannos": [
+          6,
+          6,
+          6,
+          3,
+          6
+        ],
+        "partes": [
+          33,
+          9,
+          10,
+          39,
+          31
+        ],
+        "sugerencias": [
+          1,
+          2,
+          2,
+          1,
+          2
+        ]
+      },
+      {
+        "Imagen": "1066.jpg",
+        "dannos": [
+          6,
+          1,
+          1
+        ],
+        "partes": [
+          31,
+          43,
+          999
+        ],
+        "sugerencias": [
+          2,
+          1,
+          1
+        ]
+      },
+      {
+        "Imagen": "1126.jpg",
+        "dannos": [
+          1,
+          1
+        ],
+        "partes": [
+          43,
+          999
+        ],
+        "sugerencias": [
+          1,
+          1
+        ]
+      },
+      {
+        "Imagen": "1284.jpg",
+        "dannos": [
+          6,
+          6,
+          2
+        ],
+        "partes": [
+          39,
+          33,
+          3
+        ],
+        "sugerencias": [
+          2,
+          1,
+          1
+        ]
+      },
+      {
+        "Imagen": "15.jpg",
+        "dannos": [
+          6,
+          6,
+          6,
+          6
+        ],
+        "partes": [
+          9,
+          33,
+          11,
+          15
+        ],
+        "sugerencias": [
+          2,
+          1,
+          1,
+          2
+        ]
+      }
+    ],
+    "dannos": []
+  }
+}
