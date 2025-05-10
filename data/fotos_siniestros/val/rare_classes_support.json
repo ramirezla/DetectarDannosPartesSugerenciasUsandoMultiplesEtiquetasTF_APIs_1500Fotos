@@ -1,115 +1,110 @@
 {
   "rare_partes": [
+    43,
     39,
+    7,
     15,
-    43
+    17
   ],
   "rare_partes_names": [
+    "Techo",
     "Rejilla, parrilla",
+    "Espejo lateral derecho",
     "Luz indicadora delantera derecha",
-    "Techo"
+    "Luz indicadora trasera derecha"
   ],
   "rare_dannos": [],
   "rare_dannos_names": [],
   "examples": {
     "partes": [
       {
-        "Imagen": "461.jpg",
+        "Imagen": "1281.jpg",
         "dannos": [
-          6,
-          1,
-          6,
+          4,
+          4,
+          2,
           1
         ],
         "partes": [
-          10,
+          33,
+          9,
+          11,
+          43
+        ],
+        "sugerencias": [
+          2,
+          2,
+          1,
+          1
+        ]
+      },
+      {
+        "Imagen": "1394.jpg",
+        "dannos": [
+          1,
+          4
+        ],
+        "partes": [
+          34,
+          17
+        ],
+        "sugerencias": [
+          1,
+          2
+        ]
+      },
+      {
+        "Imagen": "176.jpg",
+        "dannos": [
+          3,
+          3,
+          2,
+          3
+        ],
+        "partes": [
+          12,
+          33,
+          3,
+          39
+        ],
+        "sugerencias": [
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      {
+        "Imagen": "196.jpg",
+        "dannos": [
+          4,
+          4,
+          2
+        ],
+        "partes": [
           33,
           39,
           3
         ],
         "sugerencias": [
           2,
-          1,
           2,
           1
         ]
       },
       {
-        "Imagen": "538.jpg",
+        "Imagen": "436.jpg",
         "dannos": [
+          6,
           1,
-          6,
-          1
-        ],
-        "partes": [
-          33,
-          15,
-          11
-        ],
-        "sugerencias": [
-          1,
-          2,
-          1
-        ]
-      },
-      {
-        "Imagen": "598.jpg",
-        "dannos": [
-          6,
-          1
-        ],
-        "partes": [
-          31,
-          43
-        ],
-        "sugerencias": [
-          2,
-          1
-        ]
-      },
-      {
-        "Imagen": "9.jpg",
-        "dannos": [
-          6,
-          2,
-          2,
-          6,
           6
         ],
         "partes": [
           31,
           3,
-          12,
-          9,
-          15
+          7
         ],
         "sugerencias": [
-          2,
-          1,
-          1,
-          2,
-          2
-        ]
-      },
-      {
-        "Imagen": "918.jpg",
-        "dannos": [
-          4,
-          4,
-          3,
-          2,
-          4
-        ],
-        "partes": [
-          33,
-          10,
-          39,
-          3,
-          31
-        ],
-        "sugerencias": [
-          1,
-          2,
           2,
           1,
           2

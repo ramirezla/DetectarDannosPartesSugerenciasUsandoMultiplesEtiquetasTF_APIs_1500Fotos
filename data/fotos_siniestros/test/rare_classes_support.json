@@ -2,59 +2,21 @@
   "rare_partes": [
     39,
     43,
-    15
+    17,
+    15,
+    7
   ],
   "rare_partes_names": [
     "Rejilla, parrilla",
     "Techo",
-    "Luz indicadora delantera derecha"
+    "Luz indicadora trasera derecha",
+    "Luz indicadora delantera derecha",
+    "Espejo lateral derecho"
   ],
   "rare_dannos": [],
   "rare_dannos_names": [],
   "examples": {
     "partes": [
-      {
-        "Imagen": "1062.jpg",
-        "dannos": [
-          6,
-          6,
-          6,
-          3,
-          6
-        ],
-        "partes": [
-          33,
-          9,
-          10,
-          39,
-          31
-        ],
-        "sugerencias": [
-          1,
-          2,
-          2,
-          1,
-          2
-        ]
-      },
-      {
-        "Imagen": "1066.jpg",
-        "dannos": [
-          6,
-          1,
-          1
-        ],
-        "partes": [
-          31,
-          43,
-          999
-        ],
-        "sugerencias": [
-          2,
-          1,
-          1
-        ]
-      },
       {
         "Imagen": "1126.jpg",
         "dannos": [
@@ -71,21 +33,39 @@
         ]
       },
       {
-        "Imagen": "1284.jpg",
+        "Imagen": "1467.jpg",
         "dannos": [
-          6,
-          6,
-          2
+          4,
+          4
         ],
         "partes": [
-          39,
-          33,
-          3
+          19,
+          17
         ],
         "sugerencias": [
           2,
-          1,
-          1
+          2
+        ]
+      },
+      {
+        "Imagen": "1485.jpg",
+        "dannos": [
+          4,
+          4,
+          4,
+          3
+        ],
+        "partes": [
+          31,
+          9,
+          10,
+          39
+        ],
+        "sugerencias": [
+          2,
+          2,
+          2,
+          2
         ]
       },
       {
@@ -106,6 +86,21 @@
           2,
           1,
           1,
+          2
+        ]
+      },
+      {
+        "Imagen": "1534.jpg",
+        "dannos": [
+          6,
+          6
+        ],
+        "partes": [
+          19,
+          17
+        ],
+        "sugerencias": [
+          2,
           2
         ]
       }
