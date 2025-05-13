@@ -1,21 +1,3 @@
-"""
-API de Detección de Daños usando FastAPI y un modelo TensorFlow Keras.
-
-Este módulo define una API REST para predecir daños en imágenes de vehículos.
-Incluye la clase DamagePredictor para cargar el modelo, preprocesar imágenes,
-realizar predicciones y formatear resultados.
-
-Endpoints disponibles:
-- GET /: Mensaje de bienvenida y descripción de endpoints.
-- POST /predict: Recibe una imagen y devuelve predicciones de daños.
-- POST /predict_thresholds: Recibe una imagen y devuelve predicciones usando umbrales personalizados.
-- GET /health: Verifica el estado de la API y carga del modelo.
-
-Configuración:
-- MODEL_PATH: Ruta al modelo entrenado.
-- UPLOAD_FOLDER: Carpeta para almacenar imágenes subidas temporalmente.
-
-"""
 import os
 import tempfile
 import pickle
@@ -26,13 +8,11 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 import base64
 import json
-
-# Importar funciones del script predict_with_custom_thresholds.py
-import predict_with_custom_thresholds
+import logging
+from fastapi.responses import JSONResponse, ORJSONResponse
 
 app = FastAPI(title="API de Detección de Daños", version="3.2")
 
-# Diccionarios de mapeo (debe adaptarse si se usan otros)
 label_to_cls_piezas = {
     1: "Antiniebla delantero derecho",
     2: "Antiniebla delantero izquierdo",
@@ -107,13 +87,11 @@ MLB_PARTES_PATH = "mlb_partes.pkl"
 MLB_DANNOS_PATH = "mlb_dannos.pkl"
 MLB_SUGERENCIAS_PATH = "mlb_sugerencias.pkl"
 
-# Variables globales para modelo y binarizadores
 model = None
 mlb_partes = None
 mlb_danos = None
 mlb_sugerencias = None
 
-# Load model and MultiLabelBinarizers on startup
 @app.on_event("startup")
 def load_resources():
     global model, mlb_partes, mlb_danos, mlb_sugerencias
@@ -162,7 +140,7 @@ def predict(image_path, model, mlb_partes, mlb_danos, mlb_sugerencias):
         "image_base64": encoded_image
     }
 
-def predict_thresholds(image_path, model, mlb_partes, mlb_dannos, mlb_sugerencias, thresholds_partes, img_size=(224, 224)):
+def predict_thresholds(image_path, model, mlb_partes, mlb_danos, mlb_sugerencias, thresholds_partes, img_size=(224, 224)):
     img_array = preprocess_image(image_path, img_size)
     predictions = model.predict(img_array)
 
@@ -170,16 +148,29 @@ def predict_thresholds(image_path, model, mlb_partes, mlb_dannos, mlb_sugerencia
     dannos_probs = predictions[1][0]
     sugerencias_probs = predictions[2][0]
 
-    # Aplicar umbrales personalizados para partes
-    partes_pred = []
-    for i, cls in enumerate(mlb_partes.classes_):
-        cls_name = str(cls)
-        threshold = thresholds_partes.get(cls_name, 0.5)  # usar 0.5 si no está definido
-        partes_pred.append((cls_name, partes_probs[i], partes_probs[i] >= threshold))
+    def get_top_predictions(classes, probs, label_dict, thresholds=None, top_n=2):
+        items = []
+        for i, cls in enumerate(classes):
+            cls_name = label_dict.get(int(cls), f"Clase_{int(cls)}")
+            prob = float(probs[i])
+            above_thresh = False
+            if thresholds:
+                threshold = thresholds.get(str(cls), 0.5)
+                above_thresh = prob >= threshold
+            else:
+                above_thresh = prob >= 0.5
+            items.append({
+                "class": cls_name,
+                "probability": prob,
+                "above_threshold": bool(above_thresh)
+            })
+        # Sort by probability descending and take top_n
+        items_sorted = sorted(items, key=lambda x: x["probability"], reverse=True)[:top_n]
+        return items_sorted
 
-    # Para daños y sugerencias se usa umbral fijo 0.5 (puede extenderse si se desea)
-    dannos_pred = [(str(cls), dannos_probs[i], dannos_probs[i] >= 0.5) for i, cls in enumerate(mlb_dannos.classes_)]
-    sugerencias_pred = [(str(cls), sugerencias_probs[i], sugerencias_probs[i] >= 0.5) for i, cls in enumerate(mlb_sugerencias.classes_)]
+    partes_pred = get_top_predictions(mlb_partes.classes_, partes_probs, label_to_cls_piezas, thresholds_partes, top_n)
+    dannos_pred = get_top_predictions(mlb_danos.classes_, dannos_probs, label_to_cls_danos, None, top_n)
+    sugerencias_pred = get_top_predictions(mlb_sugerencias.classes_, sugerencias_probs, label_to_cls_sugerencias, None, top_n)
 
     return {
         'partes': partes_pred,
@@ -221,7 +212,6 @@ async def predict_thresholds_endpoint(file: UploadFile = File(...)):
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="El archivo debe ser una imagen")
     try:
-        # Cargar umbrales personalizados (puedes ajustar la ruta o cargar desde otro lugar)
         thresholds_path = "optimal_thresholds_partes.json"
         with open(thresholds_path, "r") as f:
             thresholds_partes = json.load(f)
@@ -229,10 +219,7 @@ async def predict_thresholds_endpoint(file: UploadFile = File(...)):
             contents = await file.read()
             tmp.write(contents)
             tmp.flush()
-            # Usar función del script predict_with_custom_thresholds.py
-            results = predict_thresholds(
-                tmp.name, model, mlb_partes, mlb_danos, mlb_sugerencias, thresholds_partes
-            )
-        return JSONResponse(content=results)
+            results = predict_thresholds(tmp.name, model, mlb_partes, mlb_danos, mlb_sugerencias, thresholds_partes)
+        return ORJSONResponse(content=results)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
